@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='stylesheet' href='index.css'>
+    <script src='lib/jscolor.js'></script>
+    <title>Color</title>
+</head>
+<body>
+    <canvas id='canvas' width='500' height='500'></canvas><br>
+    <div class='options'>
+        <div>Random Colors: <input type='checkbox' id='randomColor' onchange="options.isRandomColor = this.checked"></div>
+        <div>Types of Drawing:<br>&nbsp;
+            <input type='radio' id='circle' name='types' ><span>Circles</span>
+            <input type='radio' id='square' checked name='types'><span>Squares</span>
+            <input type='radio' id='line' name='types'><span>Lines</span>
+        </div>
+        <div>Number of Cursors: <input min='1' max='300' id='numCurs' type='number' value='1'></div>
+    </div>
+    <div class='options'>
+        <div>Color: <input class='jscolor' id='color' value='000000' maxlength="6"></div>
+        <button onclick='clearCanvas()'>Clear (or press c)</button>
+        <button onclick='ctx.fillStyle="#"+document.getElementById("color").value;ctx.fillRect(0,0,c.width,c.height)'>Fill as Color</button>
+        <div>Line Dash: <input id='dash' type='number' min='0' max='15' value='0'></div>
+    </div>
+    <div class='options'>
+        <div>Is Glowing: <input type='checkbox' id='glow' onchange="options.isGlow = this.checked"></div>
+        <div>Draw Interval: <input type='number' id='interval' min='5' max='100' value='10' step='5' onchange="interval = this.value"></div>
+        <div>Line Width: <input type='number' id='width' value='5' min='1' max='15' onchange='bSize = this.value'></div>
+    </div>
+    <script src='main.js'></script>
+</body>
+</html>
