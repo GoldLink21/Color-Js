@@ -17,7 +17,9 @@
             <input type='radio' id='square' checked name='types'><span>Squares</span>
             <input type='radio' id='line' name='types'><span>Lines</span>
         </div>
-        <div>Number of Cursors: <input min='1' max='300' id='numCurs' type='number' value='1'></div>
+        <div>Number of Cursors: <input min='1' max='300' id='numCurs' type='number' value='1'>
+            
+        </div>
     </div>
     <div class='options'>
         <div>Color: <input class='jscolor' id='color' value='000000' maxlength="6"></div>
@@ -27,9 +29,10 @@
     </div>
     <div class='options'>
         <div>Is Glowing: <input type='checkbox' id='glow' onchange="options.isGlow = this.checked"></div>
-        <div>Draw Interval: <input type='number' id='interval' min='5' max='100' value='10' step='5' onchange="interval = this.value"></div>
+        <div>Draw Interval: <input type='number' id='interval' min='5' max='100' value='10' step='5' onchange="interval=this.value"></div>
         <div>Line Width: <input type='number' id='width' value='5' min='1' max='15' onchange='bSize = this.value'></div>
     </div>
     <script src='main.js'></script>
+    <script src='test.js'></script>
 </body>
 </html>

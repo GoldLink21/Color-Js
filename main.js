@@ -171,9 +171,6 @@ function onMove() {
     setTimeout(onMove, interval);
 }
 
-document.addEventListener('scoll', e=>{
-    e.preventDefault();
-})
 /**Draws the points radially */
 function radialPoints(startX, startY) {
     numCursors = options.getNumCursors();
@@ -245,7 +242,7 @@ function radialLines(startX, startY, oldX, oldY) {
 
 /**Get the mouse position */
 c.addEventListener('mousemove', event => {
-    event.preventDefault();
+    //event.preventDefault();
     event.stopPropagation();
     mousePoint.x = event.x;
     mousePoint.y = event.y;
@@ -253,21 +250,41 @@ c.addEventListener('mousemove', event => {
 
 /**Add touch support */
 c.addEventListener('touchmove',event=>{
-    mousePoint.x = Math.round(event.touches[0].clientX);
-    mousePoint.y = Math.round(event.touches[0].clientY);
+    event.stopPropagation();
+    mousePoint.x = Math.round(event.changedTouches[0].clientX);
+    mousePoint.y = Math.round(event.changedTouches[0].clientY);
 })
 
 /**Begin drawing at interval */
 setTimeout(onMove, interval);
 
 //Check when the mouse is down
-c.addEventListener('mousedown', () => {
-    mouseDown = true;
+c.addEventListener('mousedown', e => {
+    clickOrTouchStart(e)
 });
 
-//Touch support
-c.addEventListener('touchstart', () => {
+function clickOrTouchStart(e){
+    //e.preventDefault();    
+    e.stopPropagation();
+
+    var p;
+    if(e.touches){
+        p=e.touches[0]
+    }else{
+        p=e
+    }
+
+    mousePoint={x:e.clientX,y:e.clientY}
+    curP=mousePoint
+    
+
     mouseDown = true;
+}
+
+//Touch support
+c.addEventListener('touchstart', e => {
+    clickOrTouchStart(e)
+    
 });
 
 //Check when the mouse is up
@@ -278,6 +295,9 @@ document.addEventListener('mouseup', () => {
 document.addEventListener('touchend', () => {
     mouseDown = false;
 });
+document.addEventListener('touchcancel',()=>{
+    mouseDown = false;
+})
 
 /**Quickly clear the canvas */
 function clearCanvas() {
@@ -293,3 +313,41 @@ document.addEventListener('keyup', (event) => {
     else if(event.key ==='2')
         curType = types.square;
 });
+
+function addUpAndDown(...ids){
+    ids.forEach(id=>add(id));
+    function add(id){
+        /**@type {HTMLInputElement} */
+        var ele=document.getElementById(id);
+        var upBtn=document.createElement('button');
+        var dwnBtn=document.createElement('button');
+
+        upBtn.innerHTML='&uparrow;'
+        upBtn.classList.add('changeBtn')
+        dwnBtn.innerHTML='&downarrow;'
+        dwnBtn.classList.add('changeBtn')
+
+        upBtn.addEventListener('click',e=>{
+            var val=Number(ele.value);
+            var step = Number(ele.step)||1;
+            val+=step;
+            if(ele.max&&(val>Number(ele.max)))
+                val=Number(ele.max);
+            ele.value=val;
+            if(typeof ele.onchange === 'function')
+                ele.onchange()
+        })
+        dwnBtn.addEventListener('click',e=>{
+            var val=Number(ele.value);
+            var step = Number(ele.step)||1;
+            val-=step;
+            if(ele.min&&(val<Number(ele.min)))
+                val=Number(ele.min);
+            ele.value=val;
+            if(typeof ele.onchange === 'function')
+                ele.onchange()
+        })
+        ele.after(upBtn,dwnBtn)
+    }
+}
+addUpAndDown('numCurs','dash','interval','width');

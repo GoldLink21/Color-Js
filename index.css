@@ -11,3 +11,6 @@ canvas{
     flex-flow: column;
     padding:5px;
 }
+.changeBtn{
+    font-size:100%;
+}
