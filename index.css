@@ -1,6 +1,5 @@
 canvas{
     border: 2px solid black;
-    scale: 50%;
     margin:auto;
     flex-flow:row;
     display: inline-flex;
